@@ -63,6 +63,6 @@ export class FilterBooleanValueComponent {
   }
 
   public get availableOptions() {
-    return [true, false];
+    return ['t', 'f'];
   }
 }
