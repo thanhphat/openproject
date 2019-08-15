@@ -341,6 +341,9 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  # has to be after the route definitions for project
+  mount Overviews::Engine, at: 'projects/:project_id', as: :project_overviews
+
   scope 'admin' do
     resource :announcements, only: %i[edit update]
     constraints(Enterprise) do
@@ -549,7 +552,6 @@ OpenProject::Application.routes.draw do
   scope controller: 'onboarding' do
     patch 'user_settings', action: 'user_settings'
   end
-
 
   scope controller: 'authentication' do
     get 'authentication' => 'authentication#index'

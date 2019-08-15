@@ -198,6 +198,12 @@ PATH
       openproject-auth_plugins
 
 PATH
+  remote: modules/overviews
+  specs:
+    overviews (1.0.0)
+      grids
+
+PATH
   remote: modules/pdf_export
   specs:
     openproject-pdf_export (1.0.0)
@@ -987,6 +993,7 @@ DEPENDENCIES
   openproject-two_factor_authentication!
   openproject-webhooks!
   openproject-xls_export!
+  overviews!
   parallel_tests (~> 2.27.1)
   passenger (~> 6.0.1)
   pg (~> 1.1.0)
