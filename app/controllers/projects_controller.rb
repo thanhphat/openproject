@@ -105,33 +105,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # Show @project
-  def show
-    @users_by_role = @project.users_by_role
-    @subprojects = @project.children.visible
-    @news = @project.news.limit(5).includes(:author, :project).order("#{News.table_name}.created_on DESC")
-    @types = @project.rolled_up_types
-
-    cond = @project.project_condition(Setting.display_subprojects_work_packages?)
-
-    @open_issues_by_type = WorkPackage
-                           .visible.group(:type)
-                           .includes(:project, :status, :type)
-                           .where(["(#{cond}) AND #{Status.table_name}.is_closed=?", false])
-                           .references(:projects, :statuses, :types)
-                           .count
-    @total_issues_by_type = WorkPackage
-                            .visible.group(:type)
-                            .includes(:project, :status, :type)
-                            .where(cond)
-                            .references(:projects, :statuses, :types)
-                            .count
-
-    respond_to do |format|
-      format.html
-    end
-  end
-
   def update
     @altered_project = Project.find(@project.id)
 

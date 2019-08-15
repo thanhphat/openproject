@@ -163,7 +163,7 @@ OpenProject::Application.routes.draw do
     match '/unwatch' => 'watchers#unwatch', via: :delete
   end
 
-  resources :projects, except: [:edit] do
+  resources :projects, except: %i[show edit] do
     member do
       # this route let's you access the project specific settings (by tab)
       #
