@@ -13,7 +13,7 @@ module Overviews
                   caption: :'overviews.label',
                   param: :project_id,
                   first: true,
-                  engine: :project_overviews,
+                  engine: :project_overview,
                   icon: 'icon2 icon-info1')
       end
     end
@@ -22,12 +22,14 @@ module Overviews
       OpenProject::AccessControl.permission(:view_project)
         .actions
         .push('overviews/overviews/show')
-      #OpenProject::AccessControl.map do |ac_map|
-      #  ac_map.project_module(:dashboards) do |pm_map|
-      #    pm_map.permission(:view_dashboards, 'dashboards/dashboards': ['show'])
-      #    pm_map.permission(:manage_dashboards, 'dashboards/dashboards': ['show'])
-      #  end
-      #end
+
+      OpenProject::AccessControl.map do |ac_map|
+        ac_map.project_module nil do |map|
+          map.permission :manage_overview,
+                         'overviews/overviews': ['show'],
+                         public: true
+        end
+      end
     end
 
     #initializer 'dashboards.conversion' do

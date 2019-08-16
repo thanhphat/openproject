@@ -342,7 +342,7 @@ OpenProject::Application.routes.draw do
   end
 
   # has to be after the route definitions for project
-  mount Overviews::Engine, at: 'projects/:project_id', as: :project_overviews
+  mount Overviews::Engine, at: 'projects/:project_id', as: :project_overview
 
   scope 'admin' do
     resource :announcements, only: %i[edit update]

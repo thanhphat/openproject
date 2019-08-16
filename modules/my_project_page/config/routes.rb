@@ -20,16 +20,4 @@
 
 # re-write
 OpenProject::Application.routes.draw do
-  # replace the standard overview-page with the my-project-page
-  # careful: do not over-match the reserved path like /projects/new or /projects/level_list, see http://rubular.com/r/1uoiXyApCB
-  get 'projects/:id', to: "my_projects_overviews#index" ,
-                      constraints: { format: :html, id: Regexp.new("(?!(#{Project::RESERVED_IDENTIFIERS.join('|')})$)(\\w|-)+") }
-
-  get  'my_projects_overview/:id/page_layout',                        to: "my_projects_overviews#page_layout",
-                                                                      as: :my_projects_overview
-  post 'my_projects_overview/:id/page_layout/save_changes',           to: "my_projects_overviews#save_changes"
-  post 'my_projects_overview/:id/page_layout/add_block',              to: "my_projects_overviews#add_block"
-  put  'my_projects_overview/:id/page_layout/update_custom_element',  to: "my_projects_overviews#update_custom_element"
-  get  'my_projects_overview/:id/page_layout/render_attachments',     to: "my_projects_overviews#render_attachments"
-  delete 'my_projects_overview/:id/page_layout/destroy_attachment',   to: "my_projects_overviews#destroy_attachment"
 end

@@ -8,10 +8,10 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
 import {GridPageComponent} from "core-app/modules/grids/grid/page/grid-page.component";
 
 @Component({
-  selector: 'dashboard',
-  templateUrl: '../../grids/grid/page/grid-page.component.html',
+  selector: 'overview',
+  templateUrl: '../grids/grid/page/grid-page.component.html',
 })
-export class DashboardComponent extends GridPageComponent {
+export class OverviewComponent extends GridPageComponent {
   constructor(readonly gridInitialization:GridInitializationService,
               readonly pathHelper:PathHelperService,
               readonly currentProject:CurrentProjectService,
@@ -21,10 +21,10 @@ export class DashboardComponent extends GridPageComponent {
   }
 
   protected i18nNamespace():string {
-    return 'dashboards';
+    return 'overviews';
   }
 
   protected gridScopePath():string {
-    return this.pathHelper.projectDashboardsPath(this.currentProject.identifier!);
+    return this.pathHelper.projectPath(this.currentProject.identifier!);
   }
 }

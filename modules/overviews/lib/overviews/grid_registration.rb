@@ -105,12 +105,12 @@ module Overviews
         projects = Project
                    .where(id: view_allowed)
 
-        projects.map { |p| url_helpers.project_overviews_path(p) }
+        projects.map { |p| url_helpers.project_overview_path(p) }
       end
 
       def from_scope(scope)
         # recognize_routes does not work with engine paths
-        path = [OpenProject::Configuration.rails_relative_url_root, 'projects', '([^/]+)', 'overviews', '?'].compact.join('/')
+        path = [OpenProject::Configuration.rails_relative_url_root, 'projects', '([^/]+)', '?'].compact.join('/')
         match = Regexp.new(path).match(scope)
         return if match.nil?
 
