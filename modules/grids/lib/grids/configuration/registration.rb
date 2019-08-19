@@ -103,6 +103,18 @@ module Grids::Configuration
         true
       end
 
+      def validations(mode = nil, proc = nil)
+        @validations ||= Hash.new do |hash, key|
+          hash[key] = []
+        end
+
+        if mode && proc
+          @validations[mode] << proc
+        elsif mode
+          @validations[mode] || []
+        end
+      end
+
       def register!
         unless @grid_class
           raise 'Need to define the grid class first. Use grid_class to do so.'

@@ -124,6 +124,33 @@ module Overviews
       }
     }
 
+    validations :create, ->(*_args) {
+      if Grids::Overview.where(project_id: model.project_id).exists?
+        errors.add(:scope, :taken)
+      end
+    }
+
+    validations :create, ->(*_args) {
+      next if user.allowed_to?(:manage_overview, model.project)
+
+      defaults = Overviews::GridRegistration.defaults
+
+      %i[row_count column_count].each do |count|
+        if model.send(count) != defaults[count]
+          errors.add(count, :unchangeable)
+        end
+      end
+
+      model.widgets.each do |widget|
+        widget_default = defaults[:widgets].detect { |w| w[:identifier] == widget.identifier }
+
+        if widget.attributes.except("options") != widget_default.attributes.except("options") ||
+           widget.attributes["options"].stringify_keys != widget_default.attributes["options"].stringify_keys
+          errors.add(:widgets, :unchangeable)
+        end
+      end
+    }
+
     class << self
       def all_scopes
         view_allowed = Project.allowed_to(User.current, :view_project)
@@ -147,7 +174,11 @@ module Overviews
       end
 
       def writable?(grid, user)
-        super && user.allowed_to?(:manage_overview, grid.project)
+        # New records are allowed to be saved by everybody. Other parts
+        # of the application prevent a user from saving arbitrary pages.
+        # Only the default config is allowed and only one page per project is allowed.
+        # That way, a new page can be created on the fly without the user noticing.
+        super && (grid.new_record? || user.allowed_to?(:manage_overview, grid.project))
       end
 
       def visible(user = User.current)
