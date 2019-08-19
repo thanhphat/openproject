@@ -375,7 +375,6 @@ class ApplicationController < ActionController::Base
     else
       @project = Project.find(params[:project_id])
     end
-
   rescue ActiveRecord::RecordNotFound
     render_404
   end
