@@ -30,22 +30,11 @@ require 'spec_helper'
 
 require_relative '../support/pages/overview'
 
-describe 'Overview page on the fly creation if user lacks :mange_overview permission', type: :feature, js: true, with_mail: false do
+describe 'Overview page on the fly creation if user lacks :mange_overview permission',
+         type: :feature, js: true, with_mail: false do
   let!(:type) { FactoryBot.create :type }
   let!(:project) { FactoryBot.create :project, types: [type] }
   let!(:open_status) { FactoryBot.create :default_status }
-  let!(:created_work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: type,
-                      author: user
-  end
-  let!(:assigned_work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: type,
-                      assigned_to: user
-  end
 
   let(:permissions) do
     %i[view_work_packages]

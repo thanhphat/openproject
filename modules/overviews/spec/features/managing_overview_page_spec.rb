@@ -32,7 +32,7 @@ require_relative '../support/pages/overview'
 
 describe 'Overview page managing', type: :feature, js: true, with_mail: false do
   let!(:type) { FactoryBot.create :type }
-  let!(:project) { FactoryBot.create :project, types: [type] }
+  let!(:project) { FactoryBot.create :project, types: [type], description: 'My **custom** description' }
   let!(:open_status) { FactoryBot.create :default_status }
   let!(:created_work_package) do
     FactoryBot.create :work_package,
@@ -49,6 +49,7 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
 
   let(:permissions) do
     %i[manage_overview
+       view_members
        view_work_packages
        add_work_packages
        save_queries
@@ -71,44 +72,45 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
   end
 
   it 'renders the default view, allows altering and saving' do
-    assigned_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
-    created_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
+    description_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+    details_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
+    overview_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
+    members_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(4)')
 
-    assigned_area.expect_to_exist
-    created_area.expect_to_exist
-    assigned_area.expect_to_span(1, 1, 7, 3)
-    created_area.expect_to_span(1, 3, 7, 5)
+    description_area.expect_to_exist
+    details_area.expect_to_exist
+    overview_area.expect_to_exist
+    members_area.expect_to_exist
+    description_area.expect_to_span(1, 1, 4, 3)
+    details_area.expect_to_span(1, 3, 4, 5)
+    overview_area.expect_to_span(4, 1, 7, 3)
+    members_area.expect_to_span(4, 3, 7, 5)
 
     # The widgets load their respective contents
-    expect(page)
-      .to have_content(created_work_package.subject)
-    expect(page)
-      .to have_content(assigned_work_package.subject)
+    within description_area.area do
+      expect(page)
+        .to have_content('My custom description')
+    end
 
     overview_page.add_row(1)
 
     # within top-right area, add an additional widget
-    overview_page.add_widget(1, 1, 'Calendar')
+    overview_page.add_widget(1, 1, 'Work packages table')
 
-    calendar_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
-    calendar_area.expect_to_span(1, 1, 2, 3)
+    table_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(5)')
+    table_area.expect_to_span(1, 1, 2, 3)
 
-    calendar_area.resize_to(2, 4)
+    table_area.resize_to(4, 4)
 
     # Resizing leads to the calendar area now spanning a larger area
-    calendar_area.expect_to_span(1, 1, 3, 5)
-    # Because of the added column, and the resizing the other widgets have moved down
-    assigned_area.expect_to_span(3, 1, 9, 3)
-    created_area.expect_to_span(3, 3, 9, 5)
+    table_area.expect_to_span(1, 1, 5, 5)
 
-    overview_page.add_column(4, before_or_after: :after)
-    overview_page.add_column(5, before_or_after: :after)
-    overview_page.add_widget(1, 5, 'Work packages watched by me')
-
-    watched_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(4)')
-    watched_area.expect_to_exist
-
-    watched_area.resize_to(3, 6)
+    within table_area.area do
+      expect(page)
+        .to have_content(created_work_package.subject)
+      expect(page)
+        .to have_content(assigned_work_package.subject)
+    end
 
     sleep(0.1)
 
@@ -116,30 +118,11 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
     visit home_path
     overview_page.visit!
 
-    assigned_area.expect_to_exist
-    created_area.expect_to_exist
-    calendar_area.expect_to_exist
-    watched_area.expect_to_exist
-    calendar_area.expect_to_span(1, 1, 3, 5)
-    assigned_area.expect_to_span(3, 1, 9, 3)
-    created_area.expect_to_span(3, 3, 9, 5)
-    watched_area.expect_to_span(1, 5, 4, 7)
-
-    # Disabling the following as it leads to false positives on travis only
-
-    # # dragging makes room for the dragged widget which means
-    # # that widgets that have been there are moved down
-    # watched_area.drag_to(1, 3)
-    # watched_area.expect_to_span(1, 3, 4, 5)
-    # calendar_area.expect_to_span(4, 1, 6, 5)
-    # assigned_area.expect_to_span(6, 1, 12, 3)
-    # created_area.expect_to_span(6, 3, 12, 5)
-
-    # calendar_area.drag_to(3, 4)
-    # # reduces the size of calendar as the widget would otherwise not fit
-    # calendar_area.expect_to_span(3, 4, 5, 7)
-    # watched_area.expect_to_span(5, 3, 8, 5)
-    # assigned_area.expect_to_span(6, 1, 12, 3)
-    # created_area.expect_to_span(8, 3, 14, 5)
+    ## Because of the added column, and the resizing the other widgets have moved down
+    description_area.expect_to_span(5, 1, 8, 3)
+    details_area.expect_to_span(5, 3, 8, 5)
+    overview_area.expect_to_span(8, 1, 11, 3)
+    members_area.expect_to_span(8, 3, 11, 5)
+    table_area.expect_to_span(1, 1, 5, 5)
   end
 end
