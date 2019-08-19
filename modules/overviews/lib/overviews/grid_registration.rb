@@ -81,17 +81,43 @@ module Overviews
         column_count: 4,
         widgets: [
           {
-            identifier: 'work_packages_table',
+            identifier: 'project_description',
             start_row: 1,
+            end_row: 4,
+            start_column: 1,
+            end_column: 3,
+            options: {
+              name: I18n.t('js.grid.widgets.project_description.title')
+            }
+          },
+          {
+            identifier: 'project_details',
+            start_row: 1,
+            end_row: 4,
+            start_column: 3,
+            end_column: 5,
+            options: {
+              name: I18n.t('js.grid.widgets.project_details.title')
+            }
+          },
+          {
+            identifier: 'work_packages_overview',
+            start_row: 4,
             end_row: 7,
             start_column: 1,
             end_column: 3,
             options: {
-              name: I18n.t('js.grid.widgets.work_packages_table.title'),
-              queryProps: {
-                "columns[]": %w(id project type subject),
-                filters: JSON.dump([{ "status": { "operator": "o", "values": [] } }])
-              }
+              name: I18n.t('js.grid.widgets.work_packages_overview.title')
+            }
+          },
+          {
+            identifier: 'members',
+            start_row: 4,
+            end_row: 7,
+            start_column: 3,
+            end_column: 5,
+            options: {
+              name: I18n.t('js.grid.widgets.members.title')
             }
           }
         ]
