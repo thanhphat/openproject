@@ -43,7 +43,6 @@ describe ProjectsController, type: :controller do
     @params = {}
   end
 
-
   describe 'new' do
     it "renders 'new'" do
       get 'new', params: @params
@@ -62,6 +61,8 @@ describe ProjectsController, type: :controller do
 
     before do
       Role.anonymous
+      Role.non_member
+
       projects
       login_as(user)
       get 'index'
