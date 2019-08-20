@@ -29,7 +29,7 @@
 import {NgModule} from '@angular/core';
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
-import {Ng2StateDeclaration, UIRouter, UIRouterModule} from "@uirouter/angular";
+import {Ng2StateDeclaration, UIRouter, UIRouterModule, Transition} from "@uirouter/angular";
 import {OpenprojectGridsModule} from "core-app/modules/grids/openproject-grids.module";
 import {OverviewComponent} from "core-app/modules/overview/overview.component";
 
@@ -48,6 +48,12 @@ export const OVERVIEW_ROUTES:Ng2StateDeclaration[] = [
   }
 ];
 
+export function uiRouterOverviewConfiguration(uiRouter:UIRouter) {
+  // Require a projectPath to exist for the transition to take place.
+  // This prevents routing on the application root (Homescreen)
+  uiRouter.transitionService.onBefore({}, (transition:Transition) => !!transition.params()['projectPath']);
+}
+
 @NgModule({
   imports: [
     OpenprojectCommonModule,
@@ -55,9 +61,9 @@ export const OVERVIEW_ROUTES:Ng2StateDeclaration[] = [
 
     OpenprojectGridsModule,
 
-    // Routes for /
     UIRouterModule.forChild({
-      states: OVERVIEW_ROUTES
+      states: OVERVIEW_ROUTES,
+      config: uiRouterOverviewConfiguration
     }),
   ],
   providers: [
