@@ -128,7 +128,7 @@ module Grids::Configuration
     end
 
     def validations(grid, mode)
-      grid_register[grid.class.to_s].validations(mode)
+      grid_register[grid.class.to_s]&.validations(mode) || []
     end
 
     protected
