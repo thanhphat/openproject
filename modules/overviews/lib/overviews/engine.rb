@@ -32,6 +32,14 @@ module Overviews
       end
     end
 
+    initializer 'overviews.patches' do
+      unless ::OpenProject::TextFormatting::Formats::Markdown::TextileConverter
+               .included_modules
+               .include?(Overviews::Patches::TextileConverterPatch)
+        ::OpenProject::TextFormatting::Formats::Markdown::TextileConverter.include(Overviews::Patches::TextileConverterPatch)
+      end
+    end
+
     config.to_prepare do
       Overviews::GridRegistration.register!
     end
