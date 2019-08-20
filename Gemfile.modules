@@ -25,7 +25,6 @@ group :opf_plugins do
 	gem 'openproject-auth_saml',                 path: 'modules/auth_saml'
 	gem 'openproject-openid_connect',            path: 'modules/openid_connect'
 	gem 'openproject-documents',                 path: 'modules/documents'
-	gem 'openproject-my_project_page',           path: 'modules/my_project_page'
 	gem 'openproject-xls_export',                path: 'modules/xls_export'
 	gem 'reporting_engine',                      path: 'modules/reporting_engine'
 	gem 'openproject-costs',                     path: 'modules/costs'

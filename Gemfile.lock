@@ -185,11 +185,6 @@ PATH
       grids
 
 PATH
-  remote: modules/my_project_page
-  specs:
-    openproject-my_project_page (1.0.0)
-
-PATH
   remote: modules/openid_connect
   specs:
     openproject-openid_connect (1.0.0)
@@ -984,7 +979,6 @@ DEPENDENCIES
   openproject-global_roles!
   openproject-ldap_groups!
   openproject-meeting!
-  openproject-my_project_page!
   openproject-openid_connect!
   openproject-pdf_export!
   openproject-reporting!
