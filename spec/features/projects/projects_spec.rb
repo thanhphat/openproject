@@ -92,6 +92,8 @@ describe 'Projects', type: :feature do
       expect(page).to have_content 'Identifier has already been taken'
       expect(current_path).to eq '/projects'
     end
+
+
   end
 
   describe 'project types' do

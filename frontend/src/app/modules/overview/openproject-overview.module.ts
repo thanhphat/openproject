@@ -39,7 +39,9 @@ export const OVERVIEW_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'overview',
     parent: 'root',
-    url: '',
+    // The trailing slash is important
+    // cf., https://community.openproject.com/wp/29754
+    url: '/',
     data: {
       bodyClasses: 'router--overview-view-base',
       menuItem: menuItemClass
@@ -49,9 +51,13 @@ export const OVERVIEW_ROUTES:Ng2StateDeclaration[] = [
 ];
 
 export function uiRouterOverviewConfiguration(uiRouter:UIRouter) {
-  // Require a projectPath to exist for the transition to take place.
-  // This prevents routing on the application root (Homescreen)
-  uiRouter.transitionService.onBefore({}, (transition:Transition) => !!transition.params()['projectPath']);
+  // Ensure projects/:project_id/ are being redirected correctly
+  // cf., https://community.openproject.com/wp/29754
+  uiRouter.urlService.rules
+    .when(
+      new RegExp("^/projects/([^/]+)$"),
+      match => `/projects/${match[1]}/`
+    );
 }
 
 @NgModule({
