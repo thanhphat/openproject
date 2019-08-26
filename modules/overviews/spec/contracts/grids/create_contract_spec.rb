@@ -137,9 +137,10 @@ describe Grids::CreateContract, 'for Grids::Overview' do
 
       context '(widget added)' do
         before do
+          grid.row_count = 4
           grid.widgets.build(identifier: 'project_details',
-                             start_row: 4,
-                             end_row: 7,
+                             start_row: 3,
+                             end_row: 4,
                              start_column: 1,
                              end_column: 3,
                              options: {
@@ -157,7 +158,8 @@ describe Grids::CreateContract, 'for Grids::Overview' do
 
       context '(widget altered)' do
         before do
-          grid.widgets[0].start_row += 1
+          grid.row_count = 4
+          grid.widgets.last.end_row += 1
         end
 
         it 'reports an error on widgets' do
