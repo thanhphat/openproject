@@ -72,9 +72,6 @@ describe 'My page', type: :feature, js: true do
 
   def assigned_area
     find_area("Work packages assigned to me")
-    #index = grid.widgets.each_with_index.detect { |w, index| w.options["name"] == "Work packages assigned to me" }.last
-
-    #Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(#{index + 1})")
   end
 
   def created_area
@@ -100,6 +97,8 @@ describe 'My page', type: :feature, js: true do
   end
 
   it 'renders the default view, allows altering and saving' do
+    sleep(0.5)
+
     assigned_area.expect_to_exist
     created_area.expect_to_exist
     assigned_area.expect_to_span(1, 1, 2, 2)
