@@ -77,34 +77,34 @@ module Overviews
 
     defaults -> {
       {
-        row_count: 7,
-        column_count: 4,
+        row_count: 2,
+        column_count: 2,
         widgets: [
           {
             identifier: 'project_description',
             start_row: 1,
-            end_row: 4,
+            end_row: 2,
             start_column: 1,
-            end_column: 3,
+            end_column: 2,
             options: {
               name: I18n.t('js.grid.widgets.project_description.title')
             }
           },
           {
             identifier: 'project_details',
-            start_row: 1,
-            end_row: 4,
-            start_column: 3,
-            end_column: 5,
+            start_row: 2,
+            end_row: 3,
+            start_column: 1,
+            end_column: 2,
             options: {
               name: I18n.t('js.grid.widgets.project_details.title')
             }
           },
           {
             identifier: 'work_packages_overview',
-            start_row: 4,
-            end_row: 7,
-            start_column: 1,
+            start_row: 1,
+            end_row: 2,
+            start_column: 2,
             end_column: 3,
             options: {
               name: I18n.t('js.grid.widgets.work_packages_overview.title')
@@ -112,10 +112,10 @@ module Overviews
           },
           {
             identifier: 'members',
-            start_row: 4,
-            end_row: 7,
-            start_column: 3,
-            end_column: 5,
+            start_row: 2,
+            end_row: 3,
+            start_column: 2,
+            end_column: 3,
             options: {
               name: I18n.t('js.grid.widgets.members.title')
             }

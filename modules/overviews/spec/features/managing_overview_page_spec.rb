@@ -81,10 +81,10 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
     details_area.expect_to_exist
     overview_area.expect_to_exist
     members_area.expect_to_exist
-    description_area.expect_to_span(1, 1, 4, 3)
-    details_area.expect_to_span(1, 3, 4, 5)
-    overview_area.expect_to_span(4, 1, 7, 3)
-    members_area.expect_to_span(4, 3, 7, 5)
+    description_area.expect_to_span(1, 1, 2, 2)
+    details_area.expect_to_span(2, 1, 3, 2)
+    overview_area.expect_to_span(1, 2, 2, 3)
+    members_area.expect_to_span(2, 2, 3, 3)
 
     # The widgets load their respective contents
     within description_area.area do
@@ -92,18 +92,16 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
         .to have_content('My custom description')
     end
 
-    overview_page.add_row(1)
-
     # within top-right area, add an additional widget
-    overview_page.add_widget(1, 1, 'Work packages table')
+    overview_page.add_widget(1, 1, :row, 'Work packages table')
 
     table_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(5)')
-    table_area.expect_to_span(1, 1, 2, 3)
+    table_area.expect_to_span(1, 1, 2, 2)
 
-    table_area.resize_to(4, 4)
+    table_area.resize_to(2, 2)
 
     # Resizing leads to the calendar area now spanning a larger area
-    table_area.expect_to_span(1, 1, 5, 5)
+    table_area.expect_to_span(1, 1, 2, 3)
 
     within table_area.area do
       expect(page)
@@ -118,11 +116,11 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
     visit home_path
     overview_page.visit!
 
-    ## Because of the added column, and the resizing the other widgets have moved down
-    description_area.expect_to_span(5, 1, 8, 3)
-    details_area.expect_to_span(5, 3, 8, 5)
-    overview_area.expect_to_span(8, 1, 11, 3)
-    members_area.expect_to_span(8, 3, 11, 5)
-    table_area.expect_to_span(1, 1, 5, 5)
+    ## Because of the added column and the resizing the other widgets have moved down
+    description_area.expect_to_span(2, 1, 3, 2)
+    details_area.expect_to_span(3, 1, 4, 2)
+    overview_area.expect_to_span(2, 2, 4, 3)
+    members_area.expect_to_span(4, 2, 5, 3)
+    table_area.expect_to_span(1, 1, 2, 3)
   end
 end
