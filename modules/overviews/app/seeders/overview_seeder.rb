@@ -6,31 +6,18 @@ module DemoData
       def seed_data!
         puts "*** Seeding Overview"
 
-        Array(demo_data_for('projects')).each do |key, project|
-          puts "   -Creating overview for #{project[:name]}"
+        Array(demo_data_for('projects')).each do |(_key, project_config)|
+          next unless overview_config(project_config)
 
-          if (config = project[:"project-overview"])
-            project = Project.find_by! identifier: project[:identifier]
+          puts "   -Creating overview for #{project_config[:name]}"
 
-            overview = Grids::Overview.create(config.slice(:row_count, :column_count).merge(project: project))
+          overview = overview_from_config(project_config)
 
-            config[:widgets].each do |widget_config|
-              create_attachments!(overview, widget_config)
-
-              if widget_config[:options] && widget_config[:options][:text]
-                widget_config[:options][:text] = with_references(widget_config[:options][:text], project)
-                widget_config[:options][:text] = link_attachments(widget_config[:options][:text], overview.attachments)
-              end
-
-              if widget_config[:options] && widget_config[:options][:queryId]
-                widget_config[:options][:queryId] = with_references(widget_config[:options][:queryId], project)
-              end
-
-              overview.widgets.build(widget_config.except(:attachments))
-            end
-
-            overview.save!
+          overview_config(project_config)[:widgets].each do |widget_config|
+            build_widget(overview, widget_config)
           end
+
+          overview.save!
         end
       end
 
@@ -48,6 +35,17 @@ module DemoData
           .all? { |ident| Project.where(identifier: ident).exists? }
       end
 
+      def build_widget(overview, widget_config)
+        create_attachments!(overview, widget_config)
+
+        widget_options = widget_config[:options]
+
+        text_with_references(overview, widget_options)
+        query_id_references(overview, widget_options)
+
+        overview.widgets.build(widget_config.except(:attachments))
+      end
+
       def create_attachments!(overview, attributes)
         Array(attributes[:attachments]).each do |file_name|
           attachment = overview.attachments.build
@@ -62,6 +60,36 @@ module DemoData
         ::Overviews::Engine.root.join(
           "config/locales/media/#{I18n.locale}/#{file_name}"
         )
+      end
+
+      def project_from_config(config)
+        Project.find_by! identifier: config[:identifier]
+      end
+
+      def overview_from_config(project_config)
+        params = overview_config(project_config)
+                 .slice(:row_count, :column_count)
+                 .merge(project: project_from_config(project_config))
+
+        Grids::Overview
+          .create(params)
+      end
+
+      def overview_config(project_config)
+        project_config[:"project-overview"]
+      end
+
+      def text_with_references(overview, widget_options)
+        if widget_options && widget_options[:text]
+          widget_options[:text] = with_references(widget_options[:text], overview.project)
+          widget_options[:text] = link_attachments(widget_options[:text], overview.attachments)
+        end
+      end
+
+      def query_id_references(overview, widget_options)
+        if widget_options && widget_options[:queryId]
+          widget_options[:queryId] = with_references(widget_options[:queryId], overview.project)
+        end
       end
     end
   end

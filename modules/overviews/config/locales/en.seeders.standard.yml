@@ -32,24 +32,24 @@ en:
         projects:
           demo-project:
             project-overview:
-              row_count: 13
-              column_count: 4
+              row_count: 4
+              column_count: 2
               widgets:
                 - identifier: 'custom_text'
                   start_row: 1
-                  end_row: 4
+                  end_row: 2
                   start_column: 1
-                  end_column: 5
+                  end_column: 3
                   options:
                     name: 'Welcome'
                     text: '![Teaser](##attachment:"demo_project_teaser.png")'
                   attachments:
                     - demo_project_teaser.png
                 - identifier: 'custom_text'
-                  start_row: 4
-                  end_row: 10
+                  start_row: 2
+                  end_row: 4
                   start_column: 1
-                  end_column: 3
+                  end_column: 2
                   options:
                     name: 'Getting started'
                     text: |
@@ -69,47 +69,47 @@ en:
                       Here you will find our [User Guides](https://www.openproject.org/help/).
                       Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
                 - identifier: 'members'
-                  start_row: 4
-                  end_row: 6
-                  start_column: 3
-                  end_column: 5
+                  start_row: 2
+                  end_row: 3
+                  start_column: 2
+                  end_column: 3
                   options:
                     name: 'Members'
                 - identifier: 'work_packages_overview'
-                  start_row: 6
-                  end_row: 10
-                  start_column: 3
-                  end_column: 5
+                  start_row: 3
+                  end_row: 4
+                  start_column: 2
+                  end_column: 3
                   options:
                     name: 'Work packages'
                 - identifier: 'work_packages_table'
-                  start_row: 10
-                  end_row: 14
+                  start_row: 4
+                  end_row: 5
                   start_column: 1
-                  end_column: 5
+                  end_column: 3
                   options:
                     name: 'Milestones'
                     queryId: '##query.id:"Milestones"'
           scrum-project:
             project-overview:
-              row_count: 14
-              column_count: 4
+              row_count: 4
+              column_count: 2
               widgets:
                 - identifier: 'custom_text'
                   start_row: 1
-                  end_row: 4
+                  end_row: 2
                   start_column: 1
-                  end_column: 5
+                  end_column: 3
                   options:
                     name: 'Welcome'
                     text: '![Teaser](##attachment:"scrum_project_teaser.png")'
                   attachments:
                     - scrum_project_teaser.png
                 - identifier: 'custom_text'
-                  start_row: 4
-                  end_row: 10
+                  start_row: 2
+                  end_row: 4
                   start_column: 1
-                  end_column: 3
+                  end_column: 2
                   options:
                     name: 'Getting started'
                     text: |
@@ -130,24 +130,24 @@ en:
                       Here you will find our [User Guides](https://www.openproject.org/help/).
                       Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
                 - identifier: 'members'
-                  start_row: 4
-                  end_row: 6
-                  start_column: 3
-                  end_column: 5
+                  start_row: 2
+                  end_row: 3
+                  start_column: 2
+                  end_column: 3
                   options:
                     name: 'Members'
                 - identifier: 'work_packages_overview'
-                  start_row: 6
-                  end_row: 10
-                  start_column: 3
-                  end_column: 5
+                  start_row: 3
+                  end_row: 4
+                  start_column: 2
+                  end_column: 3
                   options:
                     name: 'Work packages'
                 - identifier: 'work_packages_table'
-                  start_row: 10
-                  end_row: 15
+                  start_row: 4
+                  end_row: 5
                   start_column: 1
-                  end_column: 5
+                  end_column: 3
                   options:
                     name: 'Project plan'
                     queryId: '##query.id:"Project plan"'
